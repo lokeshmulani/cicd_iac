@@ -13,12 +13,11 @@ pipeline {
 
 	stage('AWS Test') {
     		steps {
-        		sh 'whoami'
-        		sh 'echo $HOME'
-        		sh 'ls -la ~/.aws || true'
-        		sh 'aws sts get-caller-identity'
-    		}
-	}
+        	withAWS(credentials: 'ami-0bdc7d025135d7b49', region: 'us-east-1') {
+            	sh '879246538016'
+        }
+    }
+}
 
 
 
