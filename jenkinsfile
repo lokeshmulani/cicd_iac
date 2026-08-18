@@ -1,96 +1,48 @@
 pipeline {
     agent any
 
-    stages {
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('azlin')
+        AWS_SECRET_ACCESS_KEY = credentials('gieHaF1wyUcaWbNf9fenM3XF49jTF+2mlNFAQHdf')
+        AWS_DEFAULT_REGION    = 'us-east-1'
+    }
 
+    stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/lokeshmulani/cicd_iac.git'
+                checkout scm
             }
         }
 
-
-	stage('AWS Test') {
-    		steps {
-        	withAWS(credentials: 'ami-0bdc7d025135d7b49', region: 'us-east-1') {
-            	sh '879246538016'
+        stage('AWS Test') {
+            steps {
+                sh 'whoami'
+                sh 'aws sts get-caller-identity'
+            }
         }
-    }
-}
-
-
 
         stage('Terraform Init') {
             steps {
-                dir('terraform') {
-                    sh 'terraform init'
-                }
+                sh 'terraform init'
             }
         }
 
         stage('Terraform Validate') {
             steps {
-                dir('terraform') {
-                    sh 'terraform validate'
-                }
+                sh 'terraform validate'
             }
         }
 
         stage('Terraform Plan') {
             steps {
-                dir('terraform') {
-                    sh 'terraform plan'
-                }
+                sh 'terraform plan -out=tfplan'
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                dir('terraform') {
-                    sh 'terraform apply -auto-approve'
-                }
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
-
-        stage('Get Public IP') {
-            steps {
-                script {
-                    env.SERVER_IP = sh(
-                        script: "cd terraform && terraform output -raw public_ip",
-                        returnStdout: true
-                    ).trim()
-
-                    echo "Server IP: ${env.SERVER_IP}"
-                }
-            }
-        }
-
-stage('Wait For EC2') {
-    steps {
-        sh 'sleep 60'
     }
-}
-
-
-stage('Deploy Application') {
-    steps {
-        withCredentials([sshUserPrivateKey(
-            credentialsId: 'ec2-key',
-            keyFileVariable: 'SSH_KEY'
-        )]) {
-            sh '''
-            scp -o StrictHostKeyChecking=no -i $SSH_KEY application/index.html ec2-user@$SERVER_IP:/temporory/index.html
-
-            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ec2-user@$SERVER_IP "
-                sudo cp /temporory/index.html /var/www/html/index.html
-                sudo chown apache:apache /var/www/html/index.html
-                sudo systemctl restart httpd
-            "
-            '''
-        }
-    }
-}
- 
-}
 }
