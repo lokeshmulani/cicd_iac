@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('azlin')
+        AWS_ACCESS_KEY_ID     = credentials('ami-0bdc7d025135d7b49')
         AWS_SECRET_ACCESS_KEY = credentials('gieHaF1wyUcaWbNf9fenM3XF49jTF+2mlNFAQHdf')
         AWS_DEFAULT_REGION    = 'us-east-1'
     }
