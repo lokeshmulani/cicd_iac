@@ -22,34 +22,34 @@ pipeline {
 
 
 
-        stage('Terraform1 Init') {
+        stage('Terraform Init') {
             steps {
                 dir('terraform1') {
-                    sh 'terraform1 init'
+                    sh 'terraform init'
                 }
             }
         }
 
-        stage('Terraform1 Validate') {
+        stage('Terraform Validate') {
             steps {
                 dir('terraform1') {
-                    sh 'terraform1 validate'
+                    sh 'terraform validate'
                 }
             }
         }
 
-        stage('Terraform1 Plan') {
+        stage('Terraform Plan') {
             steps {
                 dir('terraform1') {
-                    sh 'terraform1 plan'
+                    sh 'terraform plan'
                 }
             }
         }
 
-        stage('Terraform1 Apply') {
+        stage('Terraform Apply') {
             steps {
                 dir('terraform1') {
-                    sh 'terraform1 apply -auto-approve'
+                    sh 'terraform apply -auto-approve'
                 }
             }
         }
