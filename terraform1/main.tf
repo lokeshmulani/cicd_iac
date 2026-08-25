@@ -8,7 +8,7 @@ resource "aws_instance" "webserver" {
   key_name      = "azlin"
 
   tags = {
-    Name = "Terraform-WebServer"
+    Name = "duplicate-cicd_iac"
   }
 
   user_data = <<-EOF
