@@ -10,7 +10,15 @@ pipeline {
             }
         }
 
-
+stage('Debug') {
+    steps {
+        sh '''
+        pwd
+        ls -la
+        find . -name "*.tf"
+        '''
+    }
+}
 	stage('AWS Test') {
     		steps {
         		sh 'whoami'
