@@ -85,7 +85,7 @@ stage('Wait For EC2') {
 stage('Deploy Application') {
     steps {
         withCredentials([sshUserPrivateKey(
-            credentialsId: 'ec2-key',
+            credentialsId: 'aws-key',
             keyFileVariable: 'SSH_KEY'
         )]) {
             sh '''
