@@ -19,8 +19,8 @@ resource "aws_instance" "webserver" {
               systemctl enable httpd
               EOF
 }
-resource "aws_security_group" "web_sg" {
-  name = "web-sg"
+resource "aws_security_group" "web_tops" {
+  name = "web-tops"
 
   ingress {
     from_port   = 22
