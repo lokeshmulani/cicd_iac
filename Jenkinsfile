@@ -66,7 +66,7 @@ stage('Debug') {
             steps {
                 script {
                     env.SERVER_IP = sh(
-                        script: "cd terraform1 && terraform1 output -raw public_ip",
+                        script: "cd terraform1 && terraform output -raw public_ip",
                         returnStdout: true
                     ).trim()
 
